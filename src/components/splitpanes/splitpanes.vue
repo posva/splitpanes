@@ -49,26 +49,28 @@ const splitpanesClasses = computed(() => ({
   'splitpanes--dragging': touch.value.dragging,
 }))
 
+let unbindEvents = () => {}
 // Methods.
 // --------------------------------------------------------
-const bindEvents = () => {
-  document.addEventListener('mousemove', onMouseMove, { passive: false })
-  document.addEventListener('mouseup', onMouseUp)
+function bindEvents(targetDocument: Document) {
+  targetDocument.addEventListener('mousemove', onMouseMove, { passive: false })
+  targetDocument.addEventListener('mouseup', onMouseUp)
 
   // Passive: false to prevent scrolling while touch dragging.
   if ('ontouchstart' in window) {
-    document.addEventListener('touchmove', onMouseMove, { passive: false })
-    document.addEventListener('touchend', onMouseUp)
+    targetDocument.addEventListener('touchmove', onMouseMove, { passive: false })
+    targetDocument.addEventListener('touchend', onMouseUp)
   }
-}
 
-const unbindEvents = () => {
-  document.removeEventListener('mousemove', onMouseMove)
-  document.removeEventListener('mouseup', onMouseUp)
+  unbindEvents = () => {
+    targetDocument.removeEventListener('mousemove', onMouseMove)
+    targetDocument.removeEventListener('mouseup', onMouseUp)
 
-  if ('ontouchstart' in window) {
-    document.removeEventListener('touchmove', onMouseMove)
-    document.removeEventListener('touchend', onMouseUp)
+    if ('ontouchstart' in window) {
+      targetDocument.removeEventListener('touchmove', onMouseMove)
+      targetDocument.removeEventListener('touchend', onMouseUp)
+    }
+    unbindEvents = () => {}
   }
 }
 
@@ -77,17 +79,16 @@ const onMouseDown = (event: MouseEvent | TouchEvent, splitterIndex: number) => {
   const splitterEl = event.target.closest('.splitpanes__splitter')
   if (splitterEl) {
     const { left, top } = splitterEl.getBoundingClientRect()
-    const { clientX, clientY } =
-      'ontouchstart' in window && event.touches ? event.touches[0] : event
+    const { clientX, clientY } = 'touches' in event ? event.touches[0] : event
     touch.value.cursorOffset = props.horizontal ? clientY - top : clientX - left
   }
 
-  bindEvents()
+  bindEvents(event.target.ownerDocument || document)
   touch.value.mouseDown = true
   touch.value.activeSplitter = splitterIndex
 }
 
-const onMouseMove = (event) => {
+const onMouseMove = (event: MouseEvent | TouchEvent) => {
   if (touch.value.mouseDown) {
     // Prevent scrolling while touch dragging (only works with an active event, eg. passive: false).
     event.preventDefault()
@@ -168,7 +169,7 @@ const onPaneClick = (event, paneId) => {
 
 // Get the cursor position relative to the splitpanes container.
 const getCurrentMouseDrag = (event) => {
-  const rect = containerEl.value.getBoundingClientRect()
+  const rect = containerEl.value?.getBoundingClientRect()
   const { clientX, clientY } = 'ontouchstart' in window && event.touches ? event.touches[0] : event
 
   return {
@@ -231,7 +232,6 @@ const calculatePanesSize = (drag) => {
   if (props.pushOtherPanes) {
     const vars = doPushOtherPanes(sums, dragPercentage)
     if (!vars) return // Prevent other calculation.
-
     ;({ sums, panesToResize } = vars)
     paneBefore = panes.value[panesToResize[0]]
     paneAfter = panes.value[panesToResize[1]]
