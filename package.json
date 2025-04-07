@@ -1,5 +1,8 @@
 {
-  "name": "splitpanes",
+  "name": "@posva/splitpanes",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "4.0.3",
   "description": "A Vue.js reliable, simple and touch-ready panes splitter / resizer",
   "author": "Antoni Andre <antoniandre.web@gmail.com>",
