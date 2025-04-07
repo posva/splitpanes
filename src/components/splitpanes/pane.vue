@@ -1,20 +1,10 @@
-<template>
-<div
-  ref="paneEl"
-  class="splitpanes__pane"
-  @click="onPaneClick($event, _.uid)"
-  :style="styles">
-  <slot/>
-</div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { inject, ref, computed, onMounted, onBeforeUnmount, watch, getCurrentInstance } from 'vue'
 
 const props = defineProps({
   size: { type: [Number, String] },
   minSize: { type: [Number, String], default: 0 },
-  maxSize: { type: [Number, String], default: 100 }
+  maxSize: { type: [Number, String], default: 100 },
 })
 
 const requestUpdate = inject('requestUpdate')
@@ -43,9 +33,18 @@ const maxSizeNumber = computed(() => {
 })
 const styles = computed(() => `${horizontal.value ? 'height' : 'width'}: ${pane.value?.size}%`)
 
-watch(() => sizeNumber.value, size => requestUpdate({ uid, size }))
-watch(() => minSizeNumber.value, min => requestUpdate({ uid, min }))
-watch(() => maxSizeNumber.value, max => requestUpdate({ uid, max }))
+watch(
+  () => sizeNumber.value,
+  (size) => requestUpdate({ uid, size }),
+)
+watch(
+  () => minSizeNumber.value,
+  (min) => requestUpdate({ uid, min }),
+)
+watch(
+  () => maxSizeNumber.value,
+  (max) => requestUpdate({ uid, max }),
+)
 
 onMounted(() => {
   onPaneAdd({
@@ -55,9 +54,15 @@ onMounted(() => {
     max: maxSizeNumber.value,
     // The given size (useful to know the user intention).
     givenSize: props.size === undefined ? null : sizeNumber.value,
-    size: sizeNumber.value // The computed current size at any time.
+    size: sizeNumber.value, // The computed current size at any time.
   })
 })
 
 onBeforeUnmount(() => onPaneRemove(uid))
 </script>
+
+<template>
+  <div ref="paneEl" class="splitpanes__pane" @click="onPaneClick($event, uid)" :style="styles">
+    <slot />
+  </div>
+</template>
