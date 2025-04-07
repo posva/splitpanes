@@ -1161,7 +1161,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { Splitpanes, Pane } from '@/components/splitpanes/index.js'
+import { Splitpanes, Pane } from '@/components/splitpanes/index'
 import HighlightMessage from '@/components/highlight-message.vue'
 import SshPre from 'simple-syntax-highlighter'
 import 'simple-syntax-highlighter/dist/sshpre.css'
@@ -1190,7 +1190,7 @@ const generateRandomNumber = () => {
   randomNums.value = Object.assign(randomNums.value, {
     1: Math.round(Math.random() * 100),
     2: Math.round(Math.random() * 100),
-    3: Math.round(Math.random() * 100)
+    3: Math.round(Math.random() * 100),
   })
 }
 
@@ -1211,14 +1211,21 @@ const reloadPage = () => window.location.reload()
 $primary-color: #42b983;
 $secondary-color: #78cfa8;
 
-html {scroll-behavior: smooth;}
+html {
+  scroll-behavior: smooth;
+}
 
 a {
   text-decoration: none;
   transition: 0.3s;
 
-  .w-application h3 & {color: #333;font-size: 1.5em;}
-  &:hover {color: $secondary-color;}
+  .w-application h3 & {
+    color: #333;
+    font-size: 1.5em;
+  }
+  &:hover {
+    color: $secondary-color;
+  }
 }
 
 ul.checklist {
@@ -1226,11 +1233,13 @@ ul.checklist {
   padding: 0;
 }
 
-.code {font-family: monospace;}
+.code {
+  font-family: monospace;
+}
 
 .splitpanes.example {
   .splitpanes__pane {
-    box-shadow: 0 0 3px rgba(0, 0, 0, .2) inset;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -1264,8 +1273,12 @@ em.specs {
 // Vue Router example.
 //---------------
 .example-vue-router {
-  &.w-button--active {background-color: color.adjust($primary-color, $lightness: -10%) !important;}
-  .router-link-active {color: color.adjust($primary-color, $lightness: -10%);}
+  &.w-button--active {
+    background-color: color.adjust($primary-color, $lightness: -10%) !important;
+  }
+  .router-link-active {
+    color: color.adjust($primary-color, $lightness: -10%);
+  }
 }
 
 // Touch example.
@@ -1279,7 +1292,10 @@ em.specs {
     display: flex;
   }
 
-  .splitpanes__splitter {background-color: #ccc;position: relative;}
+  .splitpanes__splitter {
+    background-color: #ccc;
+    position: relative;
+  }
   .splitpanes__splitter:before {
     content: '';
     position: absolute;
@@ -1290,10 +1306,20 @@ em.specs {
     opacity: 0;
     z-index: 1;
   }
-  .splitpanes__splitter:hover:before {opacity: 1;}
+  .splitpanes__splitter:hover:before {
+    opacity: 1;
+  }
 
-  &.splitpanes--vertical > .splitpanes__splitter:before {left: -30px;right: -30px;height: 100%;}
-  &.splitpanes--horizontal > .splitpanes__splitter:before {top: -30px;bottom: -30px;width: 100%;}
+  &.splitpanes--vertical > .splitpanes__splitter:before {
+    left: -30px;
+    right: -30px;
+    height: 100%;
+  }
+  &.splitpanes--horizontal > .splitpanes__splitter:before {
+    top: -30px;
+    bottom: -30px;
+    width: 100%;
+  }
 
   .text {
     color: #999;
@@ -1313,16 +1339,18 @@ em.specs {
     }
   }
 
-  span {opacity: 1;}
+  span {
+    opacity: 1;
+  }
 }
 
 // Own style example.
 //---------------
 .example-own-style.splitpanes {
-  background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 
   .splitpanes__pane {
-    box-shadow: 0 0 5px rgba(0, 0, 0, .2) inset;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -1345,8 +1373,12 @@ em.specs {
   z-index: 100;
   pointer-events: none;
 
-  .splitpanes__pane:first-child {background-color: transparent;}
-  .splitpanes__splitter {pointer-events: all;}
+  .splitpanes__pane:first-child {
+    background-color: transparent;
+  }
+  .splitpanes__splitter {
+    pointer-events: all;
+  }
 
   .splitpanes__pane.drawer {
     pointer-events: all;
@@ -1359,6 +1391,11 @@ em.specs {
 }
 
 // In order to showcase the synchronicity with the panes.
-div.w-slider__thumb, div.w-slider__range {transition: none;}
-.example--programmatic-resizing .splitpanes__pane {transition: none;}
+div.w-slider__thumb,
+div.w-slider__range {
+  transition: none;
+}
+.example--programmatic-resizing .splitpanes__pane {
+  transition: none;
+}
 </style>
