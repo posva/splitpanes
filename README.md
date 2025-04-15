@@ -88,5 +88,5 @@ Manual releases for the moment:
 
 - `npm version <version>` (major, minor, patch)
 - `pnpm run build`
+- `git push --follow-tags`
 - `pnpm publish`
-- `git push`
