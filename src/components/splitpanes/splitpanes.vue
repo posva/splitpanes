@@ -748,7 +748,7 @@ provide('onPaneClick', onPaneClick)
   &__pane {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto; /* allows scrolling when content is larger than pane */
 
     .splitpanes--vertical & {
       transition: width 0.2s ease-out;
