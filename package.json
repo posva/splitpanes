@@ -33,10 +33,10 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base /splitpanes/",
-    "build-bundle": "BUNDLE=true vite build",
+    "build:docs": "vite build --base /splitpanes/",
+    "build": "BUNDLE=true vite build",
     "serve": "vite preview --base /splitpanes/",
-    "publish-doc": "npm run build && npm run build-bundle && git add . && git commit -m 'Publish documentation on Github.' && git push && git push --tag"
+    "publish-doc": "npm run build && npm run build:docs && git add . && git commit -m 'Publish documentation on Github.' && git push && git push --tag"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
